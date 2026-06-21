@@ -81,7 +81,8 @@ A full-stack accommodation booking platform inspired by Airbnb, built with the M
 
 ## 📸 Screenshots
 
-> *(Add screenshots of your Home Page, Listings Page, Booking Page, and Login/Signup Page here)*
+> ![Home Page](screenshots/home.png)
+![Listings Page](screenshots/listings.png)
 
 ---
 
