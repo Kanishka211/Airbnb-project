@@ -88,7 +88,6 @@ A full-stack accommodation booking platform inspired by Airbnb, built with the M
 ## 🌟 Future Improvements
 
 - Payment gateway integration
-- User reviews and ratings
 - Wishlist / saved properties
 - Advanced search and filtering
 - Map-based property discovery
@@ -99,5 +98,5 @@ A full-stack accommodation booking platform inspired by Airbnb, built with the M
 
 Made with ❤️ by **Kanu**
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/your-username)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/Kanishka211)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kanishka-s-2600622b5/)
