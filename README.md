@@ -12,6 +12,7 @@ A full-stack accommodation booking platform inspired by Airbnb, built with the M
 - Cloud-based property image uploads via Cloudinary
 - Booking and reservation management system
 - Fully responsive UI for desktop and mobile
+- Proper form validation using Joi
 - RESTful API with MVC architecture
 - Secure data storage with MongoDB
 
@@ -97,7 +98,7 @@ A full-stack accommodation booking platform inspired by Airbnb, built with the M
 
 ## 👩‍💻 Author
 
-Made with ❤️ by **Kanu**
+Kanishka Sharma
 
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/Kanishka211)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kanishka-s-2600622b5/)
