@@ -1,4 +1,7 @@
 # 🏜️ Dune Delight – Your Vacation Stay Companion
+🔗 **Live Demo:** [https://airbnb-project-n4n5.onrender.com](https://airbnb-project-n4n5.onrender.com)
+
+> Hosted on Render's free tier, so the first load may take 30-50 seconds.
 
 Dune Delight is a full-stack vacation rental web application inspired by Airbnb. It allows users to explore, book, and manage vacation homes seamlessly. Built with Node.js, Express, MongoDB, and EJS templates, Dune Delight delivers a smooth and dynamic booking experience.
 
