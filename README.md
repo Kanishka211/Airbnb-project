@@ -48,15 +48,15 @@ Dune Delight aims to simulate a real-world vacation rental platform, helping dev
 
 
 # Screenshots
-![Home page](screenshots/home.png)
+![Home page](Screenshots/home.png)
 
-![Listing details](screenshots/listing.png)
+![Listing details](Screenshots/listing.png)
 
-![Signup page](screenshots/signup.png)
+![Signup page](Screenshots/signup.png)
 
-![Login](screenshots/login.png)
-![New Listing](screenshots/new.png)
-![Search Listing](screenshots/search.png)
+![Login](Screenshots/login.png)
+![New Listing](Screenshots/new.png)
+![Search Listing](Screenshots/search.png)
 
 
 
