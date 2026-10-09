@@ -103,6 +103,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 app.use("/listings", ListingRouter);
 app.use("/listings/:id", reviewRouter);
 app.use("/", userRouter);
@@ -135,6 +138,5 @@ app.use((err, req, res, next) => {
 
 
 
-app.listen(3003, (req, res) => {
-  console.log("server started on port 3003");
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
