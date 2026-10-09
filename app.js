@@ -1,95 +1,140 @@
-const express=require("express");
-const app=express();
-let port=3000;
-const path=require("path");
-const methodOverride=require("method-override");
-const ejsMate = require('ejs-mate');
-const mongoose=require("mongoose");
-const ExpressError=require("./utils/ExpressError.js");
-//routes
-const listings=require("./routes/listing.js");
-const reviews=require("./routes/review.js");
-const users=require("./routes/user.js");  
-
-const session=require("express-session");
-const flash=require("connect-flash");
-const passport=require("passport");
-const LocalStrategy=require("passport-local");
-const User=require("./models/user.js");
-
-const MONGO_URL="mongodb://127.0.0.1:27017/dune-delight";
-main()
-.then(()=>{
-    console.log("connected to db");
-}).catch(err => console.log(err));
-  
-app.use(methodOverride('_method'))
-app.set("view engine","ejs");
-app.set("views",path.join(__dirname,"views"));
-app.use(express.urlencoded({extended:true}));
-app.use(express.json());
-app.engine('ejs', ejsMate);
-app.set('view engine', 'ejs');
-app.use (express.static(path.join(__dirname,"public")));
-async function main() {
-  await mongoose.connect(MONGO_URL);
-
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
 }
-app.get("/",(req,res)=>{
-    res.send("root is working");
-});
-const sessionoptions={
-    
-  secret: 'keyboard cat',
-  resave:false,
-  saveUninitialized:true,
-  cookie:{
-    expires:Date.now()+10*24*60*60*1000,
-    maxAge:10*24*60*60*1000,
-  }
-
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
 }
-app.use(session(sessionoptions));
+console.log("Google ID loaded:", !!process.env.GOOGLE_CLIENT_ID);
+console.log("Google secret loaded:", !!process.env.GOOGLE_CLIENT_SECRET);
+console.log("Google callback:", process.env.GOOGLE_CALLBACK_URL);
+const dbUrl = process.env.ATLAS_DB_URL || "mongodb://127.0.0.1:27017/wanderlust";
+
+
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const methodoverride = require("method-override");
+const path = require("path");
+const ExpressError = require("./utils/ExpressError.js");
+const ejsMate = require("ejs-mate");
+const listings = require("./models/listing.js");
+
+const ListingRouter = require("./routes/listing.js");
+const categoryRouter=require("./routes/category.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+const searchRouter = require("./routes/search.js");
+
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const User = require("./models/user.js");
+
+app.use(methodoverride("_method"));
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+
+
+app.use(express.urlencoded({ extended: true }));
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "public")));
+
+const sessionOption = {
+  secret: process.env.SECRET || "mysupersecretcode",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+
+app.use(session(sessionOption));
 app.use(flash());
-
-//passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 passport.use(new LocalStrategy(User.authenticate()));
+if(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET){
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await User.findOne({ googleId: profile.id });
+
+        if (!user) {
+          user = new User({
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            username:
+              profile.displayName || profile.emails[0].value.split("@")[0],
+          });
+          await user.save();
+        }
+
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
+}
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
-    res.locals.error=req.flash("error");
-    res.locals.currUser=req.user;
-    next();
-})
-// app.use("/demouser",async(req,res)=>{
-//     let fakeUser=new User({
-//         email:"student@gmail.com",
-//         username:"delta-student"
-//     });
-//     let registeredUser=await User.register(fakeUser,"helloworld");
-//     res.send(registeredUser);
-// });
-
-app.use("/listings",listings);
-app.use("/listings/:id/reviews",reviews);
-app.use("/",users);
-
-app.use((req,res,next)=>{
-    next(new ExpressError(404,"page not found"));
-    
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
+  next();
 });
 
-app.use((err,req,res,next)=>{
-    let {statusCode=400,message="something went wrong"}=err;
-    res.status(statusCode).render("error.ejs",{message});
-    // res.send("something went wrong");
-})
-app.listen(port,()=>{
-    console.log(`server is listening at port:${port}`);
+app.use("/listings", ListingRouter);
+app.use("/listings/:id", reviewRouter);
+app.use("/", userRouter);
+app.use("/",categoryRouter);
+app.use("/search",searchRouter);
+
+
+main()
+  .then(() => {
+    console.log("Successfully connected");
+  })
+  .catch((err) => console.log(err));
+
+
+async function main() {
+  await mongoose.connect(dbUrl);
+}
+
+
+
+app.use((req, res, next) => {
+  next(new ExpressError(404, "Page not Found"));
+});
+
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render("error.ejs", { message });
+});
+
+
+
+
+app.listen(3003, (req, res) => {
+  console.log("server started on port 3003");
 });

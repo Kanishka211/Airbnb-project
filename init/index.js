@@ -1,22 +1,48 @@
-const mongoose=require("mongoose");
-const initData=require("./data.js");
-const Listing=require("../models/listing.js");
-const MONGO_URL="mongodb://127.0.0.1:27017/dune-delight";
-main()
-.then(()=>{
-    console.log("connected to db");
-}).catch(err => console.log(err));
+const User = require("../models/user.js");
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "1.1.1.1"]); // must stay first
 
-async function main() {
-  await mongoose.connect(MONGO_URL);
+require("dotenv").config();
+const mongoose = require("mongoose");
+const listing = require("../models/listing.js");
+const initData = require("./data.js");
 
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
-}
-const initDB=async()=>{
-    await Listing.deleteMany({});
-    initData.data=initData.data.map((obj)=>({...obj
-        ,owner:"69e0160d6811c7ddae3ec900"}));
-    await Listing.insertMany(initData.data);
-    console.log("data was initialized");
+const initDB = async () => {
+  const user = await User.findOne();
+  if (!user) {
+    console.log("No users in this database. Sign up in the app first.");
+    return;
+  }
+
+  await listing.deleteMany({});
+
+  const categories = ["Trending", "Bed&Breakfast", "Farm", "OMG!", "Arctic", "Lake", "Beach"];
+
+  const data = initData.data.map((obj, i) => ({
+    ...obj,
+    category: categories[i % categories.length],
+    owner: user._id,
+    geometry: { type: "Point", coordinates: [77.209, 28.6139] },
+  }));
+
+  await listing.insertMany(data);
+
+  console.log("DB:", mongoose.connection.host, mongoose.connection.name);
+  console.log("owner set to:", user._id.toString());
+  console.log("count:", await listing.countDocuments());
+  console.log("data was initialised");
 };
-initDB();
+
+  
+
+mongoose
+  .connect(process.env.ATLAS_DB_URL) // see note 1
+  .then(() => {
+    console.log("Successfully connected");
+    return initDB();
+  })
+  .then(() => mongoose.connection.close())
+  .catch((err) => {
+    console.log(err);
+    mongoose.connection.close();
+  });

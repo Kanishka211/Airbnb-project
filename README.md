@@ -1,104 +1,77 @@
-# 🏜️ Dune Delight
 
-A full-stack accommodation booking platform inspired by Airbnb, built with the MERN stack. Dune Delight allows users to discover, list, and reserve unique stays — with secure authentication, cloud-based image uploads, and a clean responsive interface.
+# 🏡 VillaVista – Your Vacation Stay Companion
 
----
+VillaVista is a full-stack vacation rental web application inspired by Airbnb. It allows users to explore, book, and manage vacation homes seamlessly. Built with Node.js, Express, MongoDB, and EJS templates, VillaVista delivers a smooth and dynamic booking experience.
 
-## 🚀 Features
+🌟 Project Name Meaning
+VillaVista is a combination of two words:
 
-- JWT-based user authentication with protected routes
-- Create, edit, and delete property listings
-- Browse and search available accommodations
-- Cloud-based property image uploads via Cloudinary
-- Booking and reservation management system
-- Fully responsive UI for desktop and mobile
-- Proper form validation using Joi
-- RESTful API with MVC architecture
-- Secure data storage with MongoDB
+Villa – A luxurious vacation home or rental property.
 
----
+Vista – A beautiful view or scenic outlook.
 
-## 🛠️ Tech Stack
+Together, VillaVista represents the idea of enjoying beautiful vacation homes with stunning views – exactly what the app helps users find and book!
 
-| Layer      | Technology                        |
-|------------|-----------------------------------|
-| Frontend   | React.js                          |
-| Backend    | Node.js, Express.js               |
-| Database   | MongoDB, Mongoose                 |
-| Auth       | JWT (JSON Web Tokens)             |
-| Storage    | Cloudinary                        |
+# ✨ Features
 
----
+🔍 Browse and search vacation listings
 
-## 📂 Getting Started
+📆 Book stays with date selection
 
-### Prerequisites
-- Node.js (v16+)
-- MongoDB (local or Atlas)
-- Cloudinary account
+📩 Email confirmations and PDF booking tickets
 
-### Installation
+👤 User profiles with booking history
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repository-link>
-   cd dune-delight
-   ```
+🖼️ Cloudinary integration for image uploads
 
-2. **Install dependencies**
-   ```bash
-   # Install backend dependencies
-   npm install
+🔐 Authentication & authorization with Passport.js
 
-   # Install frontend dependencies
-   cd client
-   npm install
-   ```
 
-3. **Set up environment variables**
 
-   Create a `.env` file in the root directory:
-   ```env
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret_key
-   CLOUDINARY_CLOUD_NAME=your_cloud_name
-   CLOUDINARY_API_KEY=your_api_key
-   CLOUDINARY_API_SECRET=your_api_secret
-   ```
 
-4. **Run the application**
-   ```bash
-   # Run backend
-   npm start
+# 🔧 Tech Stack
+Backend: Node.js, Express.js, MongoDB, Mongoose
 
-   # Run frontend (in a separate terminal)
-   cd client
-   npm start
-   ```
+Frontend: EJS Templates, Bootstrap/CSS
 
-   The app will be available at `http://localhost:3000`
+Authentication: Passport.js (Google & Local Strategy)
 
----
+File Storage: Cloudinary
 
-## 📸 Screenshots
+Email Service: Nodemailer
 
-> ![Home Page](screenshots/home.png)
-![Listings Page](screenshots/listings.png)
 
----
 
-## 🌟 Future Improvements
+# 🚀 Project Goal
 
-- Payment gateway integration
-- Wishlist / saved properties
-- Advanced search and filtering
-- Map-based property discovery
+VillaVista aims to simulate a real-world vacation rental platform, helping developers understand full-stack architecture, secure payment integration, and user-friendly booking flows.
 
----
 
-## 👩‍💻 Author
 
-Kanishka Sharma
+# Screenshots
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/Kanishka211)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kanishka-s-2600622b5/)
+
+
+
+
+![Screenshot 2025-06-20 102017](https://github.com/user-attachments/assets/e3b8694f-762f-4e99-af85-43b95d1cf4b8)
+
+![Screenshot 2025-06-20 102042](https://github.com/user-attachments/assets/0b9b6f54-0869-4882-975f-02d87e053188)
+
+![Screenshot 2025-06-20 102059](https://github.com/user-attachments/assets/c55f772d-ffc8-452d-8b4b-7ed2d50fd52f)
+
+![Screenshot 2025-06-20 102132](https://github.com/user-attachments/assets/d4a64092-c16d-42f9-aa33-0456b9c49fca)
+
+![Screenshot 2025-06-20 102144](https://github.com/user-attachments/assets/a23a1bfa-d55f-4170-a14b-4ef0659f1a74)
+
+![Screenshot 2025-06-20 102212](https://github.com/user-attachments/assets/368627b5-4905-4c21-9c04-2ba4eb2fc6a2)
+
+![Screenshot 2025-06-20 102230](https://github.com/user-attachments/assets/a5f7d241-5737-41a5-9ed2-669b822e23ec)
+
+![Screenshot 2025-06-20 102251](https://github.com/user-attachments/assets/c7bc77cb-6d66-46e5-993a-87a5692fc410)
+
+![Screenshot 2025-06-20 102306](https://github.com/user-attachments/assets/f6b02248-03e3-40e9-b1b0-eaabedcf8c9a)
+
+![Screenshot 2025-06-20 102328](https://github.com/user-attachments/assets/e5b43d63-4218-42a1-bd05-10667a0b916e)
+
+![Screenshot 2025-06-20 102346](https://github.com/user-attachments/assets/e44d352a-7f23-4312-9e10-865dac20d6d6)

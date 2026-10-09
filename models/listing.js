@@ -1,52 +1,77 @@
-const mongoose=require("mongoose");
-const Schema=mongoose.Schema;
-const Review=require("./review.js");
-const { listingschema } = require("../schema");
 
-const listingSchema=new Schema({
-    title:{
-        type:String,
-        required:true,
-    },
+const { ref, string } = require("joi");
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-    description:String,
-    image: {
-        filename: {
+const Review = require("./review.js");
+
+
+
+const listingSchema = new mongoose.Schema(
+    {
+        title: {
             type: String,
-            default: "listingimage"
+            require: true
         },
-        url: {
+        description: {
             type: String,
-            default: "https://news.airbnb.com/wp-content/uploads/sites/4/2019/06/PJM020719Q202_Luxe_WanakaNZ_LivingRoom_0264-LightOn_R1.jpg?resize=2400,1260",
-            set: (v) =>
-                v === ""
-                    ? "https://news.airbnb.com/wp-content/uploads/sites/4/2019/06/PJM020719Q202_Luxe_WanakaNZ_LivingRoom_0264-LightOn_R1.jpg?resize=2400,1260"
-                    : v
-        }
-    },
-    price:{
-        type:Number,
-        required:true},
-    location:String,
-    country:String,
-    reviews:[
-        {
-            type:Schema.Types.ObjectId,
-            ref:"Review",
-        }
-    ],
-    owner:
-        {
-            type:Schema.Types.ObjectId,
-            ref:"User"
-        }
-    
+            require: true
+        },
+        image: {
+            url: String,
+            filename: String,
+        },
+        price: {
+            type: Number,
+            require: true
+        },
+        location: {
+            type: String,
+            require: true
+        },
+        country: {
+            type: String,
+            require: true
+        },
+        reviews: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Review",
+            },
+        ],
+        owner: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
+        geometry: {
+            type: {
+                type: String, // Don't do `{ location: { type: String } }`
+                enum: ['Point'], // 'location.type' must be 'Point'
+                required: true
+            },
+            coordinates: {
+                type: [Number],
+                required: true
+            }
+        },
+        category: {
+            type : String ,
+            
 
-});
-listingSchema.post("findOneAndDelete",async(listing)=>{
-    if(listing){
-        (await Review.deleteMany({_id:{$in:listing.reviews}}))
+        },
+
     }
-});
-const Listing=mongoose.model("Listing",listingSchema);
-module.exports =Listing;
+);
+
+listingSchema.post("findOneAndDelete", async (listing) => {
+
+    if (listing) {
+        await Review.deleteMany({ _id: { $in: listing.reviews } });
+    }
+
+
+})
+
+const listing = mongoose.model("listing", listingSchema);
+
+module.exports = listing;
